@@ -1,0 +1,21 @@
+Warning: Google App Engine Java 7 runtime is deprecated.
+Warning: See https://cloud.google.com/appengine/docs/deprecations/java7
+Jan 30, 2019 2:49:28 PM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
+INFO: Overwriting system property key 'java.util.logging.config.file', value 'C:\others\Doc\Android\google-cloud-sdk\platform\google_appengine\google\appengine\tools\java\config\sdk\logging.properties' with value 'WEB-INF/logging.properties' from 'C:\others\Doc\Android\NanodegreProject\GradleBsicTest\FinalProject\backend\build\exploded-backend\WEB-INF\appengine-web.xml'
+Jan 30, 2019 2:49:28 PM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: Logging to JettyLogger(null) via com.google.apphosting.utils.jetty.JettyLogger
+Jan 30, 2019 9:19:28 AM com.google.appengine.tools.development.IsolatedAppClassLoader checkWorkingDirectory
+WARNING: Your working directory, (C:\others\Doc\Android\NanodegreProject\GradleBsicTest\FinalProject\backend) is not equal to your 
+web application root (C:\others\Doc\Android\NanodegreProject\GradleBsicTest\FinalProject\backend\build\exploded-backend)
+You will not be able to access files from your working directory on the production server.
+
+Jan 30, 2019 9:19:28 AM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: jetty-6.1.x
+Jan 30, 2019 9:19:29 AM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: Started SelectChannelConnector@0.0.0.0:8880
+Jan 30, 2019 9:19:29 AM com.google.appengine.tools.development.AbstractModule startup
+INFO: Module instance default is running at http://localhost:8880/
+Jan 30, 2019 9:19:29 AM com.google.appengine.tools.development.AbstractModule startup
+INFO: The admin console is running at http://localhost:8880/_ah/admin
+Jan 30, 2019 2:49:29 PM com.google.appengine.tools.development.DevAppServerImpl doStart
+INFO: Dev App Server is now running
