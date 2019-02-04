@@ -3,14 +3,19 @@ package com.udacity.gradle.builditbigger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.displayjokes.DisplayMessageActivity;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -18,6 +23,9 @@ import com.google.android.gms.ads.AdView;
 public class MainActivityFragment extends Fragment implements EndpointAsyncTask.SendMessage{
     private EndpointAsyncTask.SendMessage sendMessage;
     private static final String addId = BuildConfig.ADDSENCE_ID;
+    private InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
+
     public MainActivityFragment() {
     }
 
@@ -25,16 +33,46 @@ public class MainActivityFragment extends Fragment implements EndpointAsyncTask.
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
+        spinner = root.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
         sendMessage = this;
         Button button = root.findViewById(R.id.btn_joke);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                spinner.setVisibility(View.VISIBLE);
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
                 new EndpointAsyncTask(sendMessage).execute();
             }
         });
 
-        AdView mAdView = (AdView) root.findViewById(R.id.adView);
+        MobileAds.initialize(this.getContext(),
+                "ca-app-pub-3940256099942544~3347511713");
+
+        mInterstitialAd = new InterstitialAd(this.getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+
+        AdView mAdView = root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
@@ -52,4 +90,6 @@ public class MainActivityFragment extends Fragment implements EndpointAsyncTask.
         startActivity(intent);
         //Toast.makeText(this, res, Toast.LENGTH_LONG).show();
     }
+
+
 }
